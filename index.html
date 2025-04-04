@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Centered Menu Test</title>
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -13,23 +13,25 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
             height: 100vh;
             background-color: #58993d;
-            overflow: hidden;
+            overflow: hidden; /* Prevents scrolling */
             user-select: none;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-overflow-scrolling: none; /* Prevents iOS scroll bounce */
+            touch-action: none; /* Prevents pinch zoom and scroll on touch devices */
         }
 
         .menu-container {
             display: flex;
-            justify-content: space-evenly; /* Changed to space-evenly for equal spacing */
+            justify-content: space-evenly;
             align-items: center;
-            width: 100%; /* Take full width */
-            padding: 0 20px; /* Add some padding on sides */
+            width: 100%;
+            padding: 0 20px;
         }
 
         .nav-item {
@@ -134,6 +136,22 @@
             let touchTimer;
             touchTimer = setTimeout(() => {}, 250);
             return false;
+        });
+
+        // Prevent zoom and scroll
+        document.addEventListener('wheel', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('keydown', function(e) {
+            // Prevent Ctrl + +/- and Ctrl + scroll
+            if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {
+                e.preventDefault();
+            }
         });
 
         // Selection handling
